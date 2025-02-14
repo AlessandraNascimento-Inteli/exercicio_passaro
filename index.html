@@ -27,7 +27,6 @@
 
 <script>
 
-
 //A variável config é utilizado para defefinir as configurações básicas do jogo 
 var config = {
     type: Phaser.AUTO,
@@ -41,18 +40,15 @@ var config = {
     }
 };
 
-
 var game = new Phaser.Game(config); // Aqui a variável config é utilizada para implementar neste jogo as configurações anteriormente definidas  
 
 var passarinho;
-
 
 // a função preload tem como objetivo carregar os recursos para o jogo.
 function preload() {
     this.load.image('bg', 'assets/bg_space.png');
     this.load.spritesheet('bird', 'assets/bird-red.png', {frameWidth: 75, frameHeight: 75});
 }
-
 
 // a função create tem como objetivo criar os objetos
 function create() {
@@ -71,35 +67,40 @@ function create() {
 
 // a função update atualiza ações realizadas por meio dos objetos definidos na function create
 function update() { 
-    
 
-    // o "do" define que as linhas de código dentro dele seja executado segundo a condição descrita no "while"
-    do {
-        if (passarinho.x >= 750) { // define o limite do eixo x que o passarinho vai atingir
-            passarinho.setFlip(true, false); // o primeiro false determina que o passarinho "se vire" na direção oposta ao chegar no limite permitido e o segundo determina que o passaro não fique com a imagem invertida verticalmente
-            passarinho.ida = false; // precisa ser false para que seja executado em direção a ida
-        }
+    // este if define o ponto inicial do pássaro: 100px no eixo x
+if (passarinho.x === 100){
+    passarinho.setFlip(false, false); // esta linha de código define que o passaro deve permanecer verticalmente reto e prosseguir apontado para a direção norte. 
+    passarinho.ida = true;
+}
 
-        if (passarinho.x <= 50) { // determina onde o passarinho inicia o voo no eixo x
-            passarinho.setFlip(false, false); // o primeiro false determina que o passarinho deve virar na direção oposta toda a vez que alcançar o limite estabelecido no eixo x e o segundo o mantém verticalmente ereto
-            passarinho.ida = true; // condiciona a validação deste if
-        }
+// este if condiciona o voo de ida do passarinho definindo que ao estar numa posição menor que 700px o passarinho deve se deslocar no eixo x
+if (passarinho.x < 700 && passarinho.ida === true){
+    console.log("O que acontece?");
+    console.log("O passarinho se desloca 700px no eixo x");
+    passarinho.x += 5;
+}
 
-        if (passarinho.ida) {
-            passarinho.x += 6; // define a velocidade em que o passarinho se move para a direita  
-        } else {
-            passarinho.x -= 6; // define a velocidade em que o passarinho se move para a esquerda
-        }
-        
-    } while (false); // permite a execução do código em loop
+// este if condiciona o ponto final em que o passarinho chega
+if (passarinho.x === 700){
+    passarinho.setFlip(true, false); // esta linha define que o passarinho deve "virar" ao voar no sentido de volta a posição de 100px e impede que o passarinho permaneça verticalmente correto como na ida 
+    passarinho.ida = false;
+}
 
+// este if condiciona o voo de volta do passarinho, indicando que ao estar numa posição maior que 100px, ele deve voltar
+if (passarinho.x > 100 && passarinho.ida === false){
+    console.log("O que acontece agora?");
+    console.log("Ao alcançar uma posição maior que 100px no eixo x, o passarinho volta a sua posição inicial");
+    passarinho.x -= 5;
+}
 
-    do {
-        if (passarinho.y >= 500) {// define até quantos px o passarinho se movimenta subindo o eixo y
+// este do while permite que o passarinho se movimente em loop no eixo y
+do {
+        if (passarinho.y >= 500) {// define até quantos pixels o passarinho se movimentará subindo o eixo y
             passarinho.descendo = false; // condiciona a validação desta ação
         }
 
-        if (passarinho.y <= 50) {// define até quantos px o passarinho se movimenta descendo o eixo y 
+        if (passarinho.y <= 50) {// define até quantos pixels o passarinho se movimenta descendo o eixo y 
             passarinho.descendo = true; // condiciona a validação desta condição
         }
 
@@ -111,7 +112,6 @@ function update() {
 
     } while (false); // permite a execução do código em loop
 }
- 
 
 </script>
 
